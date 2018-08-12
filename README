@@ -1,0 +1,73 @@
+#### Module for a Vending Machine ####
+This is a Java module that simulates a Vending Machine. 
+It can be easily imported by another Java Process using Maven (see pom.xml) or another dependency manager
+
+---- This module works only using the Java 8 Runtime Environment
+
+---- This module supports the following Operations:
+
+ a) Insert Coin - Insert a coin into the Vending Machine.
+ b) Cancel Operation - Cancel the Current Operation in the Vending Machine and get the Refund.
+ c) Select Product - Select a specific Product (after enough coins were inserted).
+ d) Reset Machine - Reset the Vending Machine, usually executed by the Machine Supplier. 
+ 
+---- The right order when operating the Vending Machine would be: Insert Coins, then Selecting the Product
+
+---- PRODUCT LIST configuration file
+  This Module loads a list of products from the configuration file src/main/resources/products.list into memory,
+  that creates an easy way to add and edit the Products and Prices available for the Vending Machine
+  without changing the code.
+  In order to keep the Product List loaded into memory 
+  it is necessary to keep the VendingMachineApi object alive. (see Examples of Usage below)
+  
+  IMPORTANT: For more Information, see the JavaDoc of the API (VendingMachineApi Interface)
+
+
+---- Example of MAVEN Import:
+
+	<dependency>
+		<groupId>com.dexma</groupId>
+		<artifactId>vending-machine</artifactId>
+		<version>1.0</version>
+	</dependency>
+
+
+---- Examples of Usage/Client (Vending Machine API):
+
+ a) To buy a Water (0.9 Euros):
+ 
+    void buyAWater(){
+    	VendingMachineApi vendingMachineApp = VendingMachineFactory.getInstance();
+		vendingMachineApp.insertCoin(CoinType.CENTS_50);
+		vendingMachineApp.insertCoin(CoinType.CENTS_20);
+		vendingMachineApp.insertCoin(CoinType.CENTS_20);
+		vendingMachineApp.selectProduct("Water");
+    }
+    
+ b) To buy a Coke (1.5 euros) and get the Remaining Change:
+ 
+    void buyACokeWithChange(){
+    	VendingMachineApi vendingMachineApp = VendingMachineFactory.getInstance();
+		vendingMachineApp.insertCoin(CoinType.EUROS_1);
+		vendingMachineApp.insertCoin(CoinType.EUROS_1);
+		vendingMachineApp.selectProduct("Coke");
+    }
+    
+ c) To cancel an operation and get the refund:
+ 
+	void cancelOperation(){
+    	VendingMachineApi vendingMachineApp = VendingMachineFactory.getInstance();
+		vendingMachineApp.insertCoin(CoinType.CENTS_50);
+		vendingMachineApp.insertCoin(CoinType.EUROS_1);
+		vendingMachineApp.cancelOperation();
+    }
+    
+ d) To reset the Machine (Machine Supplier):
+ 
+     void resetMachine(){
+    	VendingMachineApi vendingMachineApp = VendingMachineFactory.getInstance();
+		vendingMachineApp.insertCoin(CoinType.CENTS_50);
+		vendingMachineApp.insertCoin(CoinType.EUROS_1);
+		vendingMachineApp.resetMachine();
+    }
+   
