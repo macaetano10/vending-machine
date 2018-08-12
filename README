@@ -70,4 +70,11 @@ It can be easily imported by another Java Process using Maven (see pom.xml) or a
 		vendingMachineApp.insertCoin(CoinType.EUROS_1);
 		vendingMachineApp.resetMachine();
     }
+    
+
+---- To see the operations being executed in the Vending Machine check the Logs (printed in the console)
+
+---- I have created Unit tests to ensure that all functionalities are working properly
+    
+    
    
