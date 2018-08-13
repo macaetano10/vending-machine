@@ -21,6 +21,19 @@ It can be easily imported by another Java Process using Maven (see pom.xml) or a
   it is necessary to keep the VendingMachineApi object alive. (see Examples of Usage below)
   
   IMPORTANT: For more Information, see the JavaDoc of the API (VendingMachineApi Interface)
+  
+ 
+---- COINS INITIAL INVENTORY
+  This Module loads into memory the list of existing coin types and their respective amount that are initially stored in the Vending Machine. 
+  This initial coins are important to return the Change to the user, specially for the first purchases
+  This list can be edited on the configuration file src/main/resources/coins.list
+  As the new purchases transactions are being completed, the coins inserted by the user are moved to the Machine Wallet (Coins Inventory)
+  
+  
+---- RELEASING COINS to the user:
+  Whenever it is necessary to release coins to the user (Cancel Operation or Releasing change) this module
+  performs internal instructions to release always the coins with the higher value first (starting from 2 euros going down to 5 cents), 
+  according to the availability of the Vending Machine Wallet. The released coin types and their respective amount can be seen on the logs.
 
 
 ---- Example of MAVEN Import:

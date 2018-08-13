@@ -29,7 +29,7 @@ public class ProductControllerTest {
 	}
 	
 	@Test
-	public void testInitializeProductsInvalid(){
+	public void testInitializeProductsInvalidValue(){
 		ProductController productController = new ProductController();
 		productController.initializeProducts(PRODUCTS_LIST_TEST2_FILE_NAME);
 		
@@ -37,21 +37,27 @@ public class ProductControllerTest {
 	}
 	
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testInitializeProductsInvalidFile(){
+		ProductController productController = new ProductController();
+		productController.initializeProducts("InvalidFileName");
+		
+		assertTrue(productController.getProductsAvailable().isEmpty());
+	}
+
 	@Test
 	public void testLookForProduct(){
 		ProductController productController = new ProductController();
-		productController.initializeProducts();
+		productController.initializeProducts(PRODUCTS_LIST_TEST_FILE_NAME);
 		
 		Product product = productController.lookForProduct("Coke");
 		assertNotNull(product);
 	}
 	
-
-
 	@Test
 	public void testLookForInvalidProduct(){
 		ProductController productController = new ProductController();
-		productController.initializeProducts();
+		productController.initializeProducts(PRODUCTS_LIST_TEST_FILE_NAME);
 		
 		Product product = productController.lookForProduct("InvalidProduct");
 		assertNull(product);
@@ -61,7 +67,7 @@ public class ProductControllerTest {
 	@Test
 	public void testReset(){
 		ProductController productController = new ProductController();
-		productController.reset();
+		productController.reset(); //Reloads the products
 
 		assertTrue(!productController.getProductsAvailable().isEmpty());
 	}

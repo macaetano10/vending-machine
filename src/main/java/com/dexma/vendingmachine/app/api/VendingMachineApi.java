@@ -16,7 +16,7 @@ public interface VendingMachineApi {
 	/**
 	 * Method used to Insert a coin into the Vending Machine.
 	 * 
-	 * @param CoinType insertedCoin
+	 * @param insertedCoin
 	 */
 	public void insertCoin(CoinType insertedCoin);
 
@@ -31,8 +31,8 @@ public interface VendingMachineApi {
 	 * If the inserted coins are not enough for selected product, a null reference will be returned.
 	 * If the selected product does not exist in the loaded Product List, an IllegalArgumentException is thrown.
 	 * 
-	 * @param String productName
-	 * @return Product selectedProduct
+	 * @param productName
+	 * @return selectedProduct
 	 */
 	public Product selectProduct(String productName);
 
@@ -42,11 +42,13 @@ public interface VendingMachineApi {
 	 * 
 	 */
 	public void resetMachine();
-
+	
 	/**
-	 * Returns the current Loaded Value in the Vending Machine.
+	 * Method that returns the total value inside the transaction wallet.
+	 * In other words, it returns the sum of the coins already inserted for the current transaction.
 	 * 
+	 * @return totalValueInWallet
 	 */
-	public BigDecimal getLoadedValue();
+	public BigDecimal getTotalValueInTransactionWallet();
 
 }

@@ -50,7 +50,7 @@ public class VendingMachineImplInsertCoinsTest {
 	 public void testTotalInsertCoins() {
 		 VendingMachineApi vendingMachineApp = VendingMachineFactory.getInstance();
 		 vendingMachineApp.insertCoin(input);
-		 assertEquals(vendingMachineApp.getLoadedValue(), expected.getValue());
+		 assertEquals(vendingMachineApp.getTotalValueInTransactionWallet(), expected.getValue());
 		 
 	 }
 }

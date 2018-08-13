@@ -15,7 +15,7 @@ public class VendingMachineFactory {
 	
 	/** Static Method that creates and returns a new instance of the implementation of VendingMachineApi
 	 * 
-	 * @return VendingMachineApiImpl
+	 * @return instance of VendingMachineApiImpl
 	 */
 	public static VendingMachineApi getInstance(){
 		return new VendingMachineImpl();

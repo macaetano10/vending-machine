@@ -3,9 +3,12 @@ package com.dexma.vendingmachine.adapter;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
+import com.dexma.vendingmachine.model.CoinType;
 import com.dexma.vendingmachine.model.Product;
 
 /**
@@ -35,7 +38,16 @@ public class VMHardwareAdapterTest {
 	@Test
 	public void testRefundCash(){
 		VMFirmwareAdapter vmHardwareAdapter = new VMFirmwareAdapter();
-		boolean result=vmHardwareAdapter.refundCash(new BigDecimal("1.50"));
+		Map<CoinType,Long> coinMap = new HashMap<CoinType,Long>();
+
+		coinMap.put(CoinType.CENTS_5,0L);
+		coinMap.put(CoinType.CENTS_10,0L);
+		coinMap.put(CoinType.CENTS_20,0L);
+		coinMap.put(CoinType.CENTS_50,3L);
+		coinMap.put(CoinType.EUROS_1,1L);
+		coinMap.put(CoinType.EUROS_2,0L);
+		
+		boolean result=vmHardwareAdapter.refundCash(coinMap);
 		
 		assertTrue(result);
 	}

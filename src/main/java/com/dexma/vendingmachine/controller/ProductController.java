@@ -27,6 +27,9 @@ public class ProductController {
 
 	private final static Logger logger = Logger.getLogger(ProductController.class.getName());
 	
+	/**
+	 * Products loaded into memory
+	 */
 	private ArrayList<Product> productsAvailable = new ArrayList<Product>();
 
 	/**
@@ -37,24 +40,41 @@ public class ProductController {
 	}
 	
 	/**
-	 * Method that load Products and Prices from the Product List File into Memory
-	 * @param String productListFileName
+	 * Method that load Products and Prices from the Product List File into Memory. 
+	 * If the file does not exist, an IllegalArgumentException is thrown. 
+	 * If a Product in the list has a bad format, the product is ignored.
+	 * 
+	 * @param productListFileName
 	 */
 	public void initializeProducts(String productListFileName){
+		
 		//Load file from build path
 		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(productListFileName);
+		if (inputStream==null){
+			String message = "Product list error - File "+productListFileName+" does not exist.";
+			logger.severe(message);
+			throw new IllegalArgumentException(message);
+		}
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 			
+		//Read and load the Product List File
 		String line = null;
 		int lineCount=0;
 		try {
-			while((line=reader.readLine())!=null){
+			boolean firstLine=true;
+			
+			productFileLoop: while((line=reader.readLine())!=null){
+				
+				if (firstLine){ //Skip the header of the file
+					firstLine=false;
+					continue productFileLoop;
+				}
+				
 				if (!line.isEmpty()){
 					lineCount++;
-						
-					String[] values=line.split(";");
-					
+
 					//Each line should be in the format: "Description;Price"
+					String[] values=line.split(";");
 					if (values.length==2){
 						try{
 							BigDecimal currentProductPrice = new BigDecimal(values[1]);
@@ -71,15 +91,16 @@ public class ProductController {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			logger.warning("Product list error - Can not read the file specified");
-
+			String message = "Product list error - Error when reading file "+productListFileName;
+			logger.severe(message);
+			throw new RuntimeException(message);
 		}
 	}
 
 	/**
 	 * Method that looks for a Product from the Loaded Product List given a Product Name and returns it. 
 	 * If no Product is found with the given name a null reference is returned.
-	 * @param String productName
+	 * @param productName
 	 */
 	public Product lookForProduct(String productName){ 
 		
@@ -98,7 +119,6 @@ public class ProductController {
 
 	/**
 	 * Method that reset and reload the Product List from the Product List File into Memory.
-	 * @param String productName
 	 */
 	public void reset() {
 		
@@ -109,7 +129,7 @@ public class ProductController {
 
 	/**
 	 * Method that returns the loaded Product List available
-	 * @return ArrayList<Product>List of Products
+	 * @return List of Products
 	 */
 	public ArrayList<Product> getProductsAvailable() {
 		return productsAvailable;

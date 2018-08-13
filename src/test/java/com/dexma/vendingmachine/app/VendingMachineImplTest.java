@@ -3,6 +3,7 @@ package com.dexma.vendingmachine.app;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 
@@ -27,7 +28,8 @@ public class VendingMachineImplTest {
 		vendingMachineApp.insertCoin(CoinType.CENTS_5);
 		vendingMachineApp.cancelOperation();
 
-		assertEquals(vendingMachineApp.getLoadedValue(), BigDecimal.ZERO);
+		//I could not use assertEquals method because it does not work if the scales are different
+		assertTrue(vendingMachineApp.getTotalValueInTransactionWallet().compareTo(BigDecimal.ZERO)==0);
 	}
 	
 	@Test
@@ -43,6 +45,16 @@ public class VendingMachineImplTest {
 	public void testSelectProductValue(){
 		VendingMachineApi vendingMachineApp = VendingMachineFactory.getInstance();
 		vendingMachineApp.insertCoin(CoinType.EUROS_1);
+		vendingMachineApp.insertCoin(CoinType.CENTS_50);
+		Product product = vendingMachineApp.selectProduct("Coke");
+		assertEquals(product.getDescription(),"Coke");
+	}
+	
+	@Test
+	public void testSelectProductWithChange(){
+		VendingMachineApi vendingMachineApp = VendingMachineFactory.getInstance();
+		vendingMachineApp.insertCoin(CoinType.EUROS_1);
+		vendingMachineApp.insertCoin(CoinType.CENTS_50);
 		vendingMachineApp.insertCoin(CoinType.CENTS_50);
 		Product product = vendingMachineApp.selectProduct("Coke");
 		assertEquals(product.getDescription(),"Coke");
@@ -68,7 +80,9 @@ public class VendingMachineImplTest {
 		VendingMachineApi vendingMachineApp = VendingMachineFactory.getInstance();
 		vendingMachineApp.insertCoin(CoinType.CENTS_5);
 		vendingMachineApp.resetMachine();
-		assertEquals(vendingMachineApp.getLoadedValue(), BigDecimal.ZERO);
+
+		//I could not use assertEquals method because it does not work if the scales are different
+		assertTrue(vendingMachineApp.getTotalValueInTransactionWallet().compareTo(BigDecimal.ZERO)==0);	
 	}
 	
 }
